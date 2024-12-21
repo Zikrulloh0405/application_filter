@@ -79,6 +79,7 @@ class _FilterPageState extends State<FilterPage> {
   String bedRoom = "Any";
   String bathRoom = "Any";
   String homeType = "";
+  String hostLanguage = "";
 
   Map<String, bool> equipments = {
     "Wifi" : false,
@@ -97,7 +98,6 @@ class _FilterPageState extends State<FilterPage> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +106,7 @@ class _FilterPageState extends State<FilterPage> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            spacing: 10,
+            spacing: 20,
             children: [
               /// ranger
               Column(
@@ -276,14 +276,14 @@ class _FilterPageState extends State<FilterPage> {
                 children: [
                   Labels("Host Langauges"),
                   Column(
-                      children: List.generate(4, (index){
+                      children: List.generate(languagesList.length, (index){
                         return RadioListTile(
-                          groupValue: ,
+                          groupValue: hostLanguage,
                           title: Text(languagesList[index]),
-                          value: ,
+                          value: languagesList[index],
                           onChanged: (value) {
                             setState(() {
-                              ;
+                              hostLanguage= value;
                             });
                           },
                         );
@@ -291,6 +291,24 @@ class _FilterPageState extends State<FilterPage> {
                   ),
                 ],
               ),
+
+              /// submit button
+              MaterialButton(
+                color: Colors.black,
+                minWidth: double.infinity,
+                height: 50,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                onPressed: (){}, child: Text("Show Result", style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 20
+              ),),),
+
+              SizedBox(
+                height: 20,
+              )
 
             ],
           ),
