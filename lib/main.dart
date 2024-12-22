@@ -13,12 +13,11 @@ class AppRouteName {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Rent House',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -82,10 +81,10 @@ class _FilterPageState extends State<FilterPage> {
   String hostLanguage = "";
 
   Map<String, bool> equipments = {
-    "Wifi" : false,
-    "Washer" : false,
-    "AC" : false,
-    "Smoking" : false,
+    "Wifi": false,
+    "Washer": false,
+    "AC": false,
+    "Smoking": false,
   };
 
   List languagesList = [
@@ -95,13 +94,15 @@ class _FilterPageState extends State<FilterPage> {
     "Russian",
   ];
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -113,6 +114,7 @@ class _FilterPageState extends State<FilterPage> {
                 children: [
                   Labels("Price Range"),
                   RangeSlider(
+                    activeColor: Colors.black,
                     max: 100,
                     divisions: 20,
                     values: currentRangeValues,
@@ -201,8 +203,7 @@ class _FilterPageState extends State<FilterPage> {
                                     () {
                                       if (roomIndex == 0) {
                                         bedRoom = values[index];
-                                      } else if (roomIndex ==
-                                          1) {
+                                      } else if (roomIndex == 1) {
                                         bathRoom = values[index];
                                       }
                                     },
@@ -228,7 +229,9 @@ class _FilterPageState extends State<FilterPage> {
                     List icons = [Icons.home, Icons.apartment];
                     return Expanded(
                       child: MaterialButton(
-                        color: homeType == cardNames[index] ? Colors.blue : Colors.white,
+                        color: homeType == cardNames[index]
+                            ? Colors.black
+                            : Colors.white,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
@@ -241,8 +244,19 @@ class _FilterPageState extends State<FilterPage> {
                         height: 120,
                         child: Column(
                           children: [
-                            Icon(icons[index]),
-                            Text(cardNames[index])
+                            Icon(
+                              icons[index],
+                              color: homeType != cardNames[index]
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                            Text(
+                              cardNames[index],
+                              style: TextStyle(
+                                  color: homeType != cardNames[index]
+                                      ? Colors.black
+                                      : Colors.white),
+                            )
                           ],
                         ),
                       ),
@@ -256,18 +270,24 @@ class _FilterPageState extends State<FilterPage> {
                 children: [
                   Labels("Equipment"),
                   Column(
-                      children: equipments.keys.map((key){
-                        return CheckboxListTile(
-                          title: Text(key),
-                          value: equipments[key],
-                          onChanged: (bool? value) {
-                            setState(() {
-                              equipments[key] = value!;
-                            });
-                          },
-                        );
-                      }).toList()
-                  ),
+                      children: equipments.keys.map((key) {
+                    return CheckboxListTile(
+                      // selectedTileColor: Colors.black,
+                      // checkColor: Colors.black,
+                      fillColor: MaterialStateProperty.all(
+                          equipments[key] == true
+                              ? Colors.black
+                              : Colors.white),
+                      title: Text(key),
+                      value: equipments[key],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          equipments[key] = value!;
+                          // print(equipments[key]);
+                        });
+                      },
+                    );
+                  }).toList()),
                 ],
               ),
 
@@ -276,19 +296,19 @@ class _FilterPageState extends State<FilterPage> {
                 children: [
                   Labels("Host Langauges"),
                   Column(
-                      children: List.generate(languagesList.length, (index){
-                        return RadioListTile(
-                          groupValue: hostLanguage,
-                          title: Text(languagesList[index]),
-                          value: languagesList[index],
-                          onChanged: (value) {
-                            setState(() {
-                              hostLanguage= value;
-                            });
-                          },
-                        );
-                      })
-                  ),
+                      children: List.generate(languagesList.length, (index) {
+                    return RadioListTile(
+                      activeColor: Colors.black,
+                      groupValue: hostLanguage,
+                      title: Text(languagesList[index]),
+                      value: languagesList[index],
+                      onChanged: (value) {
+                        setState(() {
+                          hostLanguage = value;
+                        });
+                      },
+                    );
+                  })),
                 ],
               ),
 
@@ -298,18 +318,20 @@ class _FilterPageState extends State<FilterPage> {
                 minWidth: double.infinity,
                 height: 50,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+                    borderRadius: BorderRadius.circular(10)),
+                onPressed: () {},
+                child: Text(
+                  "Show Result",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20),
                 ),
-                onPressed: (){}, child: Text("Show Result", style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 20
-              ),),),
+              ),
 
               SizedBox(
                 height: 20,
               )
-
             ],
           ),
         ),
@@ -317,8 +339,6 @@ class _FilterPageState extends State<FilterPage> {
     );
   }
 }
-
-
 
 class CustomCheckButton extends StatelessWidget {
   const CustomCheckButton(
